@@ -1,0 +1,5 @@
+site_name: 海豚音乐接口文档
+pages:
+  - [index.md, Home]
+
+theme: readthedocs

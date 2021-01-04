@@ -107,8 +107,10 @@ const descLine = actionNode.loc.start.line;
 commentLines.add(descLine);
 const allComment = getLineComment(docs, commentLines);
 
-// request parameters 请求参数
+// 请求地址
+apiDoc.url = 'demo';
 
+// request parameters 请求参数
 apiDoc.request = [];
 for (const api of ruleProperty) {
     apiDoc.request.push({
@@ -143,6 +145,48 @@ apiDoc.response = collectResponse(responseProperty);
 // response parameters 响应参数
 console.log(apiDoc, customObject, 'desc:', allComment[descLine]);
 
+
+const generateMD = parameters => {
+    if (parameters.length > 0) {
+        let s = Buffer.from('字段 | 类型 | 说明\n');
+        for (const p of parameters) {
+            s = Buffer.concat([s, Buffer.from(`${p.name} | ${p.type}| ${p.comment}\n`)]);
+        }
+        return s;
+    }
+    return Buffer.from('无');
+}
+
+const generateObject = obj => {
+    let s = Buffer.from('');
+    for (const k of Object.keys(obj)) {
+        const head = Buffer.from(`#### ${k}\n`);
+        const body = Buffer.from(generateMD(obj[k]));
+        s = Buffer.concat([s, head, body]);
+    }
+    return s;
+}
+
+generateMD(apiDoc.request);
+
+const content = `
+### ${allComment[descLine]}
+### POST
+### 请求地址
+${apiDoc.url}
+
+### 请求参数
+${generateMD(apiDoc.request).toString()}
+
+### 返回参数(data 中数据)
+${generateMD(apiDoc.response).toString()}
+
+${generateObject(customObject).toString()}
+`
+console.log(content);
+
+
+
 // 生成接口
 /*
 {
@@ -160,5 +204,30 @@ console.log(apiDoc, customObject, 'desc:', allComment[descLine]);
     { name: 'phone', type: 'string', comment: '手机号' }
   ]
 } desc: 登录或注册, 接口描述
+
+ */
+
+// 生成 md 文档
+/*
+### 接口名
+### POST
+### 请求地址
+
+### 请求参数
+字段 | 类型 | 说明
+---|---|---
+
+
+### 返回参数(data 中数据)
+字段 | 类型 | 说明
+---|---|---
+
+#### user
+字段 | 类型 | 说明
+---|---|---
+
+
+
+
 
  */
