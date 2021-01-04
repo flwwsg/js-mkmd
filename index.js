@@ -148,7 +148,7 @@ console.log(apiDoc, customObject, 'desc:', allComment[descLine]);
 
 const generateMD = parameters => {
     if (parameters.length > 0) {
-        let s = Buffer.from('字段 | 类型 | 说明\n');
+        let s = Buffer.from('字段 | 类型 | 说明\n---|---|---\n');
         for (const p of parameters) {
             s = Buffer.concat([s, Buffer.from(`${p.name} | ${p.type}| ${p.comment}\n`)]);
         }
@@ -185,49 +185,3 @@ ${generateObject(customObject).toString()}
 `
 console.log(content);
 
-
-
-// 生成接口
-/*
-{
-  request: [
-    { name: 'phone', type: 'string', comment: '手机号' },
-    { name: 'code', type: 'string', comment: '验证码, 1-6 位' }
-  ],
-  response: [
-    { name: 'user', type: 'object', comment: '用户信息' },
-    { name: 'token', type: 'string', comment: 'jwt token' }
-  ]
-} {
-  user: [
-    { name: 'uid', type: 'number', comment: '用户 id' },
-    { name: 'phone', type: 'string', comment: '手机号' }
-  ]
-} desc: 登录或注册, 接口描述
-
- */
-
-// 生成 md 文档
-/*
-### 接口名
-### POST
-### 请求地址
-
-### 请求参数
-字段 | 类型 | 说明
----|---|---
-
-
-### 返回参数(data 中数据)
-字段 | 类型 | 说明
----|---|---
-
-#### user
-字段 | 类型 | 说明
----|---|---
-
-
-
-
-
- */
