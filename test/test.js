@@ -1,3 +1,5 @@
+'use strict';
+const fs = require('fs');
 
 /**
  *
@@ -13,7 +15,22 @@ const loginRule = {
     code: { type: 'string', format: /^\d{1,6}$/ },
 }
 
-// 登录，生成 token
+// 返回信息
+const loginResponse = {
+    // 用户信息
+    user: {
+        // 用户 id
+        uid: 0,
+        // 手机号
+        phone: '',
+    //    Model.xxx
+    },
+    // jwt token
+    token: '',
+}
+
+
+// 登录或注册, 接口描述
 class LoginByPhone {
 
     /**
